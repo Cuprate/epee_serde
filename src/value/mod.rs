@@ -3,6 +3,8 @@ mod ser;
 
 use std::collections::HashMap;
 
+use serde::de::Unexpected;
+
 macro_rules! get_type {
     ($fn:ident, $ty:ty, $variant:ident) => {
         pub fn $fn(&self) -> Option<&$ty> {
@@ -55,6 +57,25 @@ impl Value {
         match self {
             Value::Object(obj) => obj.get_mut(key),
             _ => None,
+        }
+    }
+
+    pub fn get_value_type_as_unexpected(&self) -> Unexpected {
+        match self {
+            Value::I64(v) => Unexpected::Signed(*v),
+            Value::I32(v) => Unexpected::Signed(*v as i64),
+            Value::I16(v) => Unexpected::Signed(*v as i64),
+            Value::I8(v) => Unexpected::Signed(*v as i64),
+            Value::U64(v) => Unexpected::Unsigned(*v),
+            Value::U32(v) => Unexpected::Unsigned(*v as u64),
+            Value::U16(v) => Unexpected::Unsigned(*v as u64),
+            Value::U8(v) => Unexpected::Unsigned(*v as u64),
+            Value::F64(v) => Unexpected::Float(*v),
+            Value::String(v) => Unexpected::Str(v),
+            Value::Bytes(v) => Unexpected::Bytes(v),
+            Value::Bool(v) => Unexpected::Bool(*v),
+            Value::Object(_) => Unexpected::Map,
+            Value::Seq(_) => Unexpected::Seq,
         }
     }
 
