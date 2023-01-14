@@ -1,0 +1,18 @@
+[package]
+name = "epee-serde"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "A serde format for the binary encoding defined within the epee helper library of Monero."
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = "1.0"
+thiserror = "1.0"
+
+[dev-dependencies]
+hex = "0.4"
+hex-literal = "0.3"
+serde = { version = "1", features = [ "derive" ] }
+serde_with = "1"
