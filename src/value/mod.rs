@@ -3,6 +3,28 @@ mod ser;
 
 use std::collections::HashMap;
 
+macro_rules! get_type {
+    ($fn:ident, $ty:ty, $variant:ident) => {
+        pub fn $fn(&self) -> Option<&$ty> {
+            match self {
+                Value::$variant(val) => Some(val),
+                _ => None,
+            }
+        }
+    };
+}
+
+macro_rules! is_type {
+    ($fn:ident, $variant:ident) => {
+        pub fn $fn(&self) -> bool {
+            match self {
+                Value::$variant(_) => true,
+                _ => false,
+            }
+        }
+    };
+}
+
 #[derive(Debug)]
 pub enum Value {
     I64(i64),
@@ -35,4 +57,34 @@ impl Value {
             _ => None,
         }
     }
+
+    get_type!(get_i64, i64, I64);
+    get_type!(get_i32, i32, I32);
+    get_type!(get_i16, i16, I16);
+    get_type!(get_i8, i8, I8);
+    get_type!(get_u64, u64, U64);
+    get_type!(get_u32, u32, U32);
+    get_type!(get_u16, u16, U16);
+    get_type!(get_u8, u8, U8);
+    get_type!(get_f64, f64, F64);
+    get_type!(get_string, String, String);
+    get_type!(get_bytes, Vec<u8>, Bytes);
+    get_type!(get_bool, bool, Bool);
+    get_type!(get_raw_hashmap, HashMap<String, Value>, Object);
+    get_type!(get_seq, Vec<Value>, Seq);
+
+    is_type!(is_i64, I64);
+    is_type!(is_i32, I32);
+    is_type!(is_i16, I16);
+    is_type!(is_i8, I8);
+    is_type!(is_u64, U64);
+    is_type!(is_u32, U32);
+    is_type!(is_u16, U16);
+    is_type!(is_u8, U8);
+    is_type!(is_f64, F64);
+    is_type!(is_string, String);
+    is_type!(is_bytes, Bytes);
+    is_type!(is_bool, Bool);
+    is_type!(is_object, Object);
+    is_type!(is_seq, Seq);
 }
