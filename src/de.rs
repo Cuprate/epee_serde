@@ -69,8 +69,7 @@ impl<'de> Deserializer<'de> {
 
         if expected_marker != actual_marker {
             return Err(Error::UnexpectedMarker(format!(
-                "expected: {}, got: {}",
-                expected_marker, actual_marker
+                "expected: {expected_marker}, got: {actual_marker}"
             )));
         }
 
@@ -314,8 +313,7 @@ impl<'de, 'a> de::Deserializer<'de> for &'a mut Deserializer<'de> {
 
                 if expected_length != got_length {
                     return Err(Error::LengthMismatch(format!(
-                        "expected: {}, got: {}",
-                        expected_length, got_length
+                        "expected: {expected_length}, got: {got_length}"
                     )));
                 }
 

@@ -52,8 +52,8 @@ impl Marker {
 impl fmt::Display for Marker {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::Single { value } => write!(f, "Single({:x})", value),
-            Self::Sequence { element } => write!(f, "Sequence({:x})", element),
+            Self::Single { value } => write!(f, "Single({value:x})"),
+            Self::Sequence { element } => write!(f, "Sequence({element:x})"),
         }
     }
 }
