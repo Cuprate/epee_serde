@@ -7,8 +7,8 @@ use serde::de::Unexpected;
 
 macro_rules! get_type {
     ($fn:ident, $ty:ty, $variant:ident) => {
-        pub fn $fn(&self) -> Option<&$ty> {
-            match self {
+        pub fn $fn(value: Value) -> Option<$ty> {
+            match value {
                 Value::$variant(val) => Some(val),
                 _ => None,
             }
@@ -56,6 +56,13 @@ impl Value {
     pub fn get_mut(&mut self, key: &str) -> Option<&mut Value> {
         match self {
             Value::Object(obj) => obj.get_mut(key),
+            _ => None,
+        }
+    }
+
+    pub fn get_and_remove(&mut self, key: &str) -> Option<Value> {
+        match self {
+            Value::Object(obj) => obj.remove(key),
             _ => None,
         }
     }
